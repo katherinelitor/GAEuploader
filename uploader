@@ -7,6 +7,7 @@ import os.path
 
 os.chdir(os.path.dirname(sys.argv[0]))
 os.environ["CLOUDSDK_PYTHON"] = "python2.7";
+subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "components", "install", "alpha", "beta"])
 #subprocess.check_call(["./google-cloud-sdk/install.sh"])
 #subprocess.check_call(["gcloud", "init"])
 appname = input("Enter your project name here: ")
