@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+
+import subprocess
+import os
+import sys
+import os.path
+
+os.chdir(os.path.dirname(sys.argv[0]))
+os.environ["CLOUDSDK_PYTHON"] = "python2.7";
+subprocess.check_call(["./google-cloud-sdk/install.sh"])
+subprocess.check_call(["gcloud", "init"])
+appname = input("Enter your project name here: ")
+subprocess.check_call(["gcloud", "alpha", "projects", "create", appname])
+subprocess.check_call(["gcloud", "beta", "config", "set", "project", appname])
+subprocess.check_call(["gcloud", "beta", "config", "set", "compute/zone", "zone3"])
+subprocess.check_call(["gcloud", "beta", "app", "create", "--region=us-central", "--project=" + appname])
+os.chdir("appengine")
+subprocess.check_call(["gcloud", "app", "deploy", "app.yaml"])
