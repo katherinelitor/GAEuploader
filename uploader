@@ -5,15 +5,22 @@ import os
 import sys
 import os.path
 
+#The code below is based on the official reference for Google Cloud.
+#https://cloud.google.com/sdk/gcloud/reference/
+
 os.chdir(os.path.dirname(sys.argv[0]))
+#Sets the environmental variable to python 2.7, the version accepted by Google Cloud SDK.
 os.environ["CLOUDSDK_PYTHON"] = "python2.7";
+#install alpha and beta, components needed to create the project.
 subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "components", "install", "alpha", "beta"])
-#subprocess.check_call(["./google-cloud-sdk/install.sh"])
-#subprocess.check_call(["gcloud", "init"])
 appname = input("Enter your project name here: ")
-#https://cloud.google.com/sdk/docs/quickstart-mac-os-x
+#create a project with given PROJECT_ID
 subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "alpha", "projects", "create", appname])
+#set the project property in the core section
 subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "beta", "config", "set", "project", appname])
+#set the zone property in the compute section
 subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "beta", "config", "set", "compute/zone", "zone3"])
+#create an App Engine app within the current Google Cloud Project.
 subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "beta", "app", "create", "--region=us-central", "--project=" + appname])
+#deploy the meek source code onto the newly created google app engine.
 subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "app", "deploy", "./appengine/app.yaml"])
