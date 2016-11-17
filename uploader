@@ -24,3 +24,4 @@ subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "beta", "config", "set",
 subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "beta", "app", "create", "--region=us-central", "--project=" + appname])
 #deploy the meek source code onto the newly created google app engine.
 subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "app", "deploy", "./appengine/app.yaml"])
+print("Your bridge line is: " + "meek 0.0.2.0:1 url=https://" + appname + ".appspot.com/ front=www.google.com")
