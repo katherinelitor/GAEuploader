@@ -4,6 +4,7 @@ import subprocess
 import os
 import sys
 import os.path
+import webbrowser
 
 #The code below is based on the official reference for Google Cloud.
 #https://cloud.google.com/sdk/gcloud/reference/
@@ -12,8 +13,10 @@ os.chdir(os.path.dirname(sys.argv[0]))
 #Sets the environmental variable to python 2.7, the version accepted by Google Cloud SDK.
 os.environ["CLOUDSDK_PYTHON"] = "python2.7";
 #install alpha and beta, components needed to create the project.
-subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "components", "install", "alpha", "beta"])
+subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "-q", "components", "install", "alpha", "beta"])
+subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "auth", "login"])
 appname = input("Enter your project name here: ")
+webbrowser.open("https://cloud.google.com/console")
 #create a project with given PROJECT_ID
 subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "alpha", "projects", "create", appname])
 #set the project property in the core section
