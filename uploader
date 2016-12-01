@@ -15,10 +15,20 @@ os.chdir(os.path.dirname(sys.argv[0]))
 os.environ["CLOUDSDK_PYTHON"] = "python2.7";
 #install alpha and beta, components needed to create the project.
 subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "-q", "components", "install", "alpha", "beta"])
-print("A pop up windows will open in two seconds asking you to login if you haven't already and accpet the terms of service. ")
-time.sleep(2)
+print("A pop up window will open in a few seconds asking you to login.")
+print("Please keep this terminal window open, and return to it after\nyou log in and accept the terms of service in the pop-up window.")
+print("\n\n\n")
+time.sleep(5)
 webbrowser.open("https://cloud.google.com/console")
-appname = input("Enter your project name here: ")
+print("Please make sure that you have accepted the terms of service before\nentering your project ID below.")
+print("\n")
+print("Requirements for project IDs:")
+print("(1) Starts with a lowercase letter.")
+print("(2) Contains only lowercase ASCII letters, digits or hyphens.")
+print("(3) Between 6 and 30 characters.")
+print("(4) Unique.")
+print("\n")
+appname = input("Enter your project ID here: ")
 #create a project with given PROJECT_ID
 subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "alpha", "projects", "create", appname])
 #set the project property in the core section
@@ -28,5 +38,5 @@ subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "beta", "config", "set",
 #create an App Engine app within the current Google Cloud Project.
 subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "beta", "app", "create", "--region=us-central", "--project=" + appname])
 #deploy the meek source code onto the newly created google app engine.
-subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "app", "deploy", "./appengine/app.yaml"])
-print("Your bridge line is: " + "meek 0.0.2.0:1 url=https://" + appname + ".appspot.com/ front=www.google.com")
+subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "-q", "app", "deploy", "./appengine/app.yaml"])
+print("Your bridge line is:\n" + "meek 0.0.2.0:1 url=https://" + appname + ".appspot.com/ front=www.google.com")
