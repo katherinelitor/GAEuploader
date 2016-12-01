@@ -1,0 +1,43 @@
+Google App Engine Uploader
+This program automatically uploads meek code to Google App Engine that
+you can use with Tor Browser.
+
+System Requirements:
+  - Python 2.7.x.
+
+How-to-use:
+
+1. Double click the “uploader” file.
+
+2. Follow the instructions in the pop-up terminal window to create your own Google App Engine and deploy meek-client. If you are not already signed in to your Google account, a browser window will pop up asking you to sign in.
+
+3. Once your app is successfully created, you will see “Your bridge line is: ” followed by  a string in the form of “meek … google.com”. Copy the Bridge line to use in the next step.
+
+4. To configure meek-client to talk to the App Engine app, open the Tor Network Settings, check "My Internet Service Provider (ISP) blocks connections to the Tor network", and paste the Bridge line into the "Enter custom bridges" box.
+
+5. Follow the prompts to connect Tor. You are done!
+
+
+
+Alternatively, you can create a Google App Engine in terminal without downloading the uploader. Here’s how:
+
+1. Download the Google Cloud SDK from https://cloud.google.com/sdk/docs/quickstarts
+
+2. Perform the following commands in terminal (make sure you are in a directory that contains the folders “google-cloud-sdk” and “appengine”)
+
+export GCLOUDSDK_PYTHON=python2.7
+./google-cloud-sdk/bin/gcloud components install alpha beta
+./google-cloud-sdk/bin/gcloud alpha projects create YOUR_APP_NAME
+./google-cloud-sdk/bin/gcloud beta config set project YOUR_APP_NAME
+./google-cloud-sdk/bin/gcloud beta config set compute/zone zone3
+./google-cloud-sdk/bin/gcloud beta app create --region=us-central --project=YOUR_APP_NAME
+./google-cloud-sdk/bin/gcloud app deploy ./appengine/app.yaml
+
+3. After the app is successfully created, you should see “Deployed service [default] to” followed by an URL. Your bridge line is simply:
+"meek 0.0.2.0:1 url=https://" + YOUR_APP_NAME + ".appspot.com/ front=www.google.com" 
+
+4. Continue with step 5 above to configure Tor Browser.
+
+
+
+If you have any questions, please contact katherineli.tor@gmail.com.
