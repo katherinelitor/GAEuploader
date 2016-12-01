@@ -7,9 +7,14 @@ import os.path
 import webbrowser
 import time
 
+# Handles input difference between python2 and python3.
+try:
+   input = raw_input
+except NameError:
+   pass
+
 #The code below is based on the official reference for Google Cloud.
 #https://cloud.google.com/sdk/gcloud/reference/
-
 os.chdir(os.path.dirname(sys.argv[0]))
 #Sets the environmental variable to python 2.7, the version accepted by Google Cloud SDK.
 os.environ["CLOUDSDK_PYTHON"] = "python2.7";
