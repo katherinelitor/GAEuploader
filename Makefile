@@ -11,7 +11,7 @@ SDK_LINUX = google-cloud-sdk-137.0.0-linux-x86_64.tar.gz
 GAEuploader-$(VERSION)-mac.zip: $(SDK_MAC)
 	rm -rf staging/mac
 	mkdir -p staging/mac/GAEuploader
-	git archive master -- README uploader appengine | tar -C staging/mac/GAEuploader -xvf -
+	git archive master -- README LICENSE uploader appengine | tar -C staging/mac/GAEuploader -xvf -
 	tar -C staging/mac/GAEuploader -xf $(SDK_MAC)
 	cd staging/mac && zip -q -r -9 "../../$@" GAEuploader
 	rm -rf staging/
@@ -19,7 +19,7 @@ GAEuploader-$(VERSION)-mac.zip: $(SDK_MAC)
 GAEuploader-$(VERSION)-linux.zip: $(SDK_LINUX)
 	rm -rf staging/linux
 	mkdir -p staging/linux/GAEuploader
-	git archive master -- README uploader appengine | tar -C staging/linux/GAEuploader -xvf -
+	git archive master -- README LICENSE uploader appengine | tar -C staging/linux/GAEuploader -xvf -
 	tar -C staging/linux/GAEuploader -xf $(SDK_LINUX)
 	cd staging/linux && zip -q -r -9 "../../$@" GAEuploader
 	rm -rf staging/
