@@ -7,6 +7,8 @@ System Requirements:
 
 How-to-use:
 
+For screenshots, please go to: https://trac.torproject.org/projects/tor/wiki/doc/GAEuploader
+
 1. Double click the “uploader” file.
 
 2. Follow the instructions in the pop-up terminal window to create your own Google App Engine and deploy meek-client. If you are not already signed in to your Google account, a browser window will pop up asking you to sign in.
@@ -41,4 +43,3 @@ export GCLOUDSDK_PYTHON=python2.7
 
 
 If you have any questions, please contact katherineli.tor@gmail.com.
-Tor wikipage: https://trac.torproject.org/projects/tor/wiki/doc/GAEuploader
