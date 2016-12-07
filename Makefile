@@ -1,4 +1,4 @@
-VERSION = 1.0
+VERSION = 1.0-alpha
 
 all: GAEuploader-$(VERSION)-mac.zip GAEuploader-$(VERSION)-linux.zip
 
