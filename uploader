@@ -35,9 +35,16 @@ print("(2) Contains only lowercase ASCII letters, digits or hyphens.")
 print("(3) Between 6 and 30 characters.")
 print("(4) Unique.")
 print("\n")
-appname = input("Enter your project ID here: ")
+
 #create a project with given PROJECT_ID
-subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "alpha", "projects", "create", appname])
+while True:
+	try:
+		appname = input("Enter your project ID here: ")
+		subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "alpha", "projects", "create", appname])
+	except subprocess.CalledProcessError:
+		continue
+	else:
+		break
 #set the project property in the core section
 subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "beta", "config", "set", "project", appname])
 #set the zone property in the compute section
