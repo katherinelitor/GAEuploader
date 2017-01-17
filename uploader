@@ -7,6 +7,16 @@ import os.path
 import webbrowser
 import time
 
+import base64
+import re
+def project_id_is_valid(project_id):
+	return 6 <= len(project_id) <= 30 and re.match(b"^[a-z][a-z0-9-]*$", project_id)
+def generate_project_id():
+	while True:
+		project_id = base64.b32encode(os.urandom(8)).rstrip(b'=').lower()
+		if project_id_is_valid(project_id):
+			return project_id
+
 # Handles input difference between python2 and python3.
 try:
    input = raw_input
@@ -39,6 +49,7 @@ print("\n")
 #create a project with given PROJECT_ID
 while True:
 	try:
+		print("Suggested project ID: {}".format(generate_project_id()))
 		appname = input("Enter your project ID here: ")
 		subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "alpha", "projects", "create", appname])
 	except subprocess.CalledProcessError:
