@@ -10,6 +10,9 @@ How-to-use:
 
 For screenshots, please go to: https://trac.torproject.org/projects/tor/wiki/doc/GAEuploader
 
+OPTIONAL(You can skip this step and proceed to Step 1 below): The region of your app engine is “us-central” by default. You can change the region by right clicking the “uploader” file and opening it with a text editor of your choice. In line 21, you can replace “us-central” with another region listed in line 20.
+
+
 1. Double click the “uploader” file.
 
 2. Follow the instructions in the pop-up terminal window to create your own Google App Engine and deploy meek-client. If you are not already signed in to your Google account, a browser window will pop up asking you to sign in.
@@ -38,7 +41,7 @@ export GCLOUDSDK_PYTHON=python2.7
 3. After the app is successfully created, you should see “Deployed service [default] to” followed by an URL. Your bridge line is simply:
 "meek 0.0.2.0:1 url=https://" + YOUR_APP_NAME + ".appspot.com/ front=www.google.com" 
 
-4. Continue with step 5 above to configure Tor Browser.
+4. Continue with step 4 above to configure Tor Browser.
 
 
 
