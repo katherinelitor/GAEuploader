@@ -17,6 +17,9 @@ def generate_project_id():
 		if project_id_is_valid(project_id):
 			return project_id
 
+#You can change the region to "asia-northeast1", "europe-west" or "us-east1", depending on your location.
+REGION = "us-central"
+
 # Handles input difference between python2 and python3.
 try:
    input = raw_input
@@ -58,10 +61,8 @@ while True:
 		break
 #set the project property in the core section
 subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "beta", "config", "set", "project", appname])
-#set the zone property in the compute section
-subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "beta", "config", "set", "compute/zone", "zone3"])
 #create an App Engine app within the current Google Cloud Project.
-subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "beta", "app", "create", "--region=us-central", "--project=" + appname])
+subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "beta", "app", "create", "--region=" + REGION, "--project=" + appname])
 #deploy the meek source code onto the newly created google app engine.
 subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "-q", "app", "deploy", "./appengine/app.yaml"])
 print("Your bridge line is:\n" + "meek 0.0.2.0:1 url=https://" + appname + ".appspot.com/ front=www.google.com")

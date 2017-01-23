@@ -32,7 +32,6 @@ export GCLOUDSDK_PYTHON=python2.7
 ./google-cloud-sdk/bin/gcloud components install alpha beta
 ./google-cloud-sdk/bin/gcloud alpha projects create YOUR_APP_NAME
 ./google-cloud-sdk/bin/gcloud beta config set project YOUR_APP_NAME
-./google-cloud-sdk/bin/gcloud beta config set compute/zone zone3
 ./google-cloud-sdk/bin/gcloud beta app create --region=us-central --project=YOUR_APP_NAME
 ./google-cloud-sdk/bin/gcloud app deploy ./appengine/app.yaml
 
