@@ -52,7 +52,7 @@ print("\n")
 #create a project with given PROJECT_ID
 while True:
 	try:
-		print("Suggested project ID: {}".format(generate_project_id()))
+		print("Suggested project ID: {}".format(generate_project_id().decode("utf-8")))
 		appname = input("Enter your project ID here: ")
 		subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "alpha", "projects", "create", appname])
 	except subprocess.CalledProcessError:
