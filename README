@@ -10,14 +10,14 @@ How-to-use:
 
 For screenshots, please go to: https://trac.torproject.org/projects/tor/wiki/doc/GAEuploader
 
-OPTIONAL(You can skip this step and proceed to Step 1 below): The region of your app engine is “us-central” by default. You can change the region by right clicking the “uploader” file and opening it with a text editor of your choice. In line 21, you can replace “us-central” with another region listed in line 20.
+OPTIONAL(You can skip this step and proceed to Step 1 below): The region of your app engine is "us-central" by default. You can change the region by right clicking the "uploader" file and opening it with a text editor of your choice. In line 21, you can replace "us-central" with another region listed in line 20.
 
 
-1. Double click the “uploader” file.
+1. Double click the "uploader" file.
 
 2. Follow the instructions in the pop-up terminal window to create your own Google App Engine and deploy meek-client. If you are not already signed in to your Google account, a browser window will pop up asking you to sign in.
 
-3. Once your app is successfully created, you will see “Your bridge line is: ” followed by  a string in the form of “meek … google.com”. Copy the Bridge line to use in the next step.
+3. Once your app is successfully created, you will see "Your bridge line is: " followed by  a string in the form of "meek … google.com". Copy the Bridge line to use in the next step.
 
 4. To configure meek-client to talk to the App Engine app, open the Tor Network Settings, check "My Internet Service Provider (ISP) blocks connections to the Tor network", and paste the Bridge line into the "Enter custom bridges" box.
 
@@ -29,7 +29,7 @@ Alternatively, you can create a Google App Engine in terminal without downloadin
 
 1. Download the Google Cloud SDK from https://cloud.google.com/sdk/docs/quickstarts
 
-2. Perform the following commands in terminal (make sure you are in a directory that contains the folders “google-cloud-sdk” and “appengine”)
+2. Perform the following commands in terminal (make sure you are in a directory that contains the folders "google-cloud-sdk" and "appengine")
 
 export GCLOUDSDK_PYTHON=python2.7
 ./google-cloud-sdk/bin/gcloud components install alpha beta
@@ -38,7 +38,7 @@ export GCLOUDSDK_PYTHON=python2.7
 ./google-cloud-sdk/bin/gcloud beta app create --region=us-central --project=YOUR_APP_NAME
 ./google-cloud-sdk/bin/gcloud app deploy ./appengine/app.yaml
 
-3. After the app is successfully created, you should see “Deployed service [default] to” followed by an URL. Your bridge line is simply:
+3. After the app is successfully created, you should see "Deployed service [default] to" followed by an URL. Your bridge line is simply:
 "meek 0.0.2.0:1 url=https://" + YOUR_APP_NAME + ".appspot.com/ front=www.google.com" 
 
 4. Continue with step 4 above to configure Tor Browser.
