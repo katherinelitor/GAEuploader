@@ -16,6 +16,8 @@ def generate_project_id():
 		project_id = base64.b32encode(os.urandom(8)).rstrip(b'=').lower()
 		if project_id_is_valid(project_id):
 			return project_id
+def gcloudf(args):
+	subprocess.check_call(["./google-cloud-sdk/bin/gcloud"] + args)
 
 #You can change the region to "asia-northeast1", "europe-west" or "us-east1", depending on your location.
 REGION = "us-central"
@@ -32,13 +34,13 @@ os.chdir(os.path.dirname(sys.argv[0]))
 #Sets the environmental variable to python 2.7, the version accepted by Google Cloud SDK.
 os.environ["CLOUDSDK_PYTHON"] = "python2.7";
 #install alpha and beta, components needed to create the project.
-subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "-q", "components", "install", "alpha", "beta"])
+gcloudf(["-q", "components", "install", "alpha", "beta"])
 print("A pop up window will open in a few seconds asking you to login.")
 print("Please keep this terminal window open, and return to it after\nyou log in and accept the terms of service in the pop-up window.")
 print("\n\n\n")
 sys.stdout.flush()
 time.sleep(5)
-subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "auth", "login"])
+gcloudf(["auth", "login"])
 webbrowser.open("https://cloud.google.com/console")
 time.sleep(1)
 print("Please make sure that you have accepted the terms of service before\nentering your project ID below.")
@@ -59,16 +61,16 @@ while True:
 		sys.stdout.flush()
 		appname = input("Enter your project ID here: ")
 		sys.stdout.flush()
-		subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "alpha", "projects", "create", appname])
+		gcloudf(["alpha", "projects", "create", appname])
 	except subprocess.CalledProcessError:
 		continue
 	else:
 		break
 #set the project property in the core section
-subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "beta", "config", "set", "project", appname])
+gcloudf(["beta", "config", "set", "project", appname])
 #create an App Engine app within the current Google Cloud Project.
-subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "beta", "app", "create", "--region=" + REGION, "--project=" + appname])
+gcloudf(["beta", "app", "create", "--region=" + REGION, "--project=" + appname])
 #deploy the meek source code onto the newly created google app engine.
-subprocess.check_call(["./google-cloud-sdk/bin/gcloud", "-q", "app", "deploy", "./appengine/app.yaml"])
+gcloudf(["-q", "app", "deploy", "./appengine/app.yaml"])
 print("Your bridge line is:\n" + "meek 0.0.2.0:1 url=https://" + appname + ".appspot.com/ front=www.google.com")
 sys.stdout.flush()
