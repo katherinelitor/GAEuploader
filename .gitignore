@@ -1,3 +1,2 @@
 *.pyc
-google-cloud-sdk/.install/
-google-cloud-sdk/lib/surface/
+google-cloud-sdk
