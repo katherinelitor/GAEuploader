@@ -33,8 +33,6 @@ except NameError:
 os.chdir(os.path.dirname(sys.argv[0]))
 #Sets the environmental variable to python 2.7, the version accepted by Google Cloud SDK.
 os.environ["CLOUDSDK_PYTHON"] = "python2.7";
-#install alpha and beta, components needed to create the project.
-gcloudf(["-q", "components", "install", "alpha", "beta"])
 print("A pop up window will open in a few seconds asking you to login.")
 print("Please keep this terminal window open, and return to it after\nyou log in and accept the terms of service in the pop-up window.")
 print("\n\n\n")
@@ -61,15 +59,15 @@ while True:
 		sys.stdout.flush()
 		appname = input("Enter your project ID here: ")
 		sys.stdout.flush()
-		gcloudf(["alpha", "projects", "create", appname])
+		gcloudf(["projects", "create", appname])
 	except subprocess.CalledProcessError:
 		continue
 	else:
 		break
 #set the project property in the core section
-gcloudf(["beta", "config", "set", "project", appname])
+gcloudf(["config", "set", "project", appname])
 #create an App Engine app within the current Google Cloud Project.
-gcloudf(["beta", "app", "create", "--region=" + REGION, "--project=" + appname])
+gcloudf(["app", "create", "--region=" + REGION, "--project=" + appname])
 #deploy the meek source code onto the newly created google app engine.
 gcloudf(["-q", "app", "deploy", "./appengine/app.yaml"])
 print("Your bridge line is:\n" + "meek 0.0.2.0:1 url=https://" + appname + ".appspot.com/ front=www.google.com")
