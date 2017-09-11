@@ -56,9 +56,9 @@ sys.stdout.flush()
 while True:
 	try:
 		print("Suggested project ID: {}".format(generate_project_id().decode("utf-8")))
+		print("Please enter your project ID below, press Enter once, and wait.")
 		sys.stdout.flush()
-		appname = input("Enter your project ID here: ")
-		sys.stdout.flush()
+		appname = input()
 		gcloudf(["projects", "create", appname])
 	except subprocess.CalledProcessError:
 		continue
