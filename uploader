@@ -84,6 +84,5 @@ path = removeends(path)
 os.environ["CLOUDSDK_PYTHON"] = path
 #deploy the meek source code onto the newly created google app engine.
 gcloudf(["-q", "app", "deploy", "./appengine/app.yaml"])
-del os.environ["CLOUDSDK_PYTHON"]
 print("Your bridge line is:\n" + "meek 0.0.2.0:1 url=https://" + appname + ".appspot.com/ front=www.google.com")
 sys.stdout.flush()
