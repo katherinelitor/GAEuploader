@@ -9,6 +9,12 @@ import time
 
 import base64
 import re
+
+if sys.platform == "win32":
+	GCLOUD_PATH = ".\\google-cloud-sdk\\bin\\gcloud.cmd"
+else:
+	GCLOUD_PATH = "./google-cloud-sdk/bin/gcloud"
+
 def project_id_is_valid(project_id):
 	return 6 <= len(project_id) <= 30 and re.match(b"^[a-z][a-z0-9-]*$", project_id)
 def generate_project_id():
@@ -17,9 +23,9 @@ def generate_project_id():
 		if project_id_is_valid(project_id):
 			return project_id
 def gcloudf(args):
-	subprocess.check_call([".\\google-cloud-sdk\\bin\\gcloud.cmd"] + args)
+	subprocess.check_call([GCLOUD_PATH] + args)
 def gcloudoutput(args):
-	return subprocess.check_output([".\\google-cloud-sdk\\bin\\gcloud.cmd"] + args)
+	return subprocess.check_output([GCLOUD_PATH] + args)
 
 def removeends(path):
 	if path.endswith("\n"):
@@ -43,7 +49,8 @@ except NameError:
 #https://cloud.google.com/sdk/gcloud/reference/
 os.chdir(os.path.dirname(sys.argv[0]))
 #Sets the environmental variable to python 2.7, the version accepted by Google Cloud SDK.
-#os.environ["CLOUDSDK_PYTHON"] = "python2.7";
+if sys.platform != "win32":
+	os.environ["CLOUDSDK_PYTHON"] = "python2.7";
 print("A pop up window will open in a few seconds asking you to login.")
 print("Please keep this terminal window open, and return to it after\nyou log in and accept the terms of service in the pop-up window.")
 print("\n\n\n")
@@ -79,9 +86,10 @@ while True:
 gcloudf(["config", "set", "project", appname])
 #create an App Engine app within the current Google Cloud Project.
 gcloudf(["app", "create", "--region=" + REGION, "--project=" + appname])
-path = gcloudoutput(["components", "copy-bundled-python"])
-path = removeends(path)
-os.environ["CLOUDSDK_PYTHON"] = path
+if sys.platform == "win32":
+	path = gcloudoutput(["components", "copy-bundled-python"])
+	path = removeends(path)
+	os.environ["CLOUDSDK_PYTHON"] = path
 #deploy the meek source code onto the newly created google app engine.
 gcloudf(["-q", "app", "deploy", "./appengine/app.yaml"])
 print("Your bridge line is:\n" + "meek 0.0.2.0:1 url=https://" + appname + ".appspot.com/ front=www.google.com")
