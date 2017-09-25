@@ -1,4 +1,4 @@
-VERSION = 1.0-beta
+VERSION = 1.2-beta
 
 all: GAEuploader-$(VERSION)-mac.zip GAEuploader-$(VERSION)-linux.zip GAEuploader-$(VERSION)-windows.zip
 
