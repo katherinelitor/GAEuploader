@@ -6,8 +6,8 @@ all: GAEuploader-$(VERSION)-mac.zip GAEuploader-$(VERSION)-linux.zip
 # for Linux at https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-137.0.0-linux-x86_64.tar.gz
 # for Windows at https://dl.google.com/dl/cloudsdk/channels/rapid/GoogleCloudSDKInstaller.exe
 
-SDK_MAC = google-cloud-sdk-145.0.0-darwin-x86_64.tar.gz
-SDK_LINUX = google-cloud-sdk-145.0.0-linux-x86_64.tar.gz
+SDK_MAC = google-cloud-sdk-172.0.1-darwin-x86_64.tar.gz
+SDK_LINUX = google-cloud-sdk-172.0.1-linux-x86_64.tar.gz
 
 GAEuploader-$(VERSION)-mac.zip: $(SDK_MAC)
 	rm -rf staging/mac
