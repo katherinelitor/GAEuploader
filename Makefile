@@ -1,6 +1,9 @@
 VERSION = 1.0-beta
 
-all: GAEuploader-$(VERSION)-mac.zip GAEuploader-$(VERSION)-linux.zip
+all: mac linux windows
+mac: GAEuploader-$(VERSION)-mac.zip
+linux: GAEuploader-$(VERSION)-linux.zip
+windows: GAEuploader-$(VERSION)-windows.zip
 
 # You can download the Google Cloud SDK for Mac OS X at https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-137.0.0-darwin-x86_64.tar.gz
 # for Linux at https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-137.0.0-linux-x86_64.tar.gz
