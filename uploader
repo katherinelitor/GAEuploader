@@ -6,6 +6,8 @@ import sys
 import os.path
 import webbrowser
 import time
+import shutil
+import tempfile
 
 import base64
 import re
@@ -35,6 +37,18 @@ def removeends(path):
 	if path.endswith("\r\n"):
 		path = path[:-2]
 	return path
+
+def safe_to_delete(path):
+	'''
+	Return a boolean indicating whether dir is a subdirectory of the temp directory, and therefore safe to delete.
+	This is safety feature to avoid deleting useful information.
+	'''
+	temp_path = os.getenv("TEMP")
+	if temp_path:
+		return os.path.normcase(temp_path)==os.path.normcase(os.path.dirname(path))
+	else:
+		return False
+
 
 #You can change the region to "asia-northeast1", "europe-west" or "us-east1", depending on your location.
 REGION = "us-central"
@@ -92,5 +106,11 @@ if sys.platform == "win32":
 	os.environ["CLOUDSDK_PYTHON"] = path
 #deploy the meek source code onto the newly created google app engine.
 gcloudf(["-q", "app", "deploy", "./appengine/app.yaml"])
+# remove copy-bundled-python
+# Example of bundled_python_path: %TEMP%\tmptb9ovz\python\python.exe
+# Therefore, we go two levels up to delete the directory.
+bundled_python_path = os.path.dirname(os.path.dirname(path))
+if safe_to_delete(bundled_python_path):
+	shutil.rmtree(bundled_python_path)
 print("Your bridge line is:\n" + "meek 0.0.2.0:1 url=https://" + appname + ".appspot.com/ front=www.google.com")
 sys.stdout.flush()
