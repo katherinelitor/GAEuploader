@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	forwardURL = "https://meek.bamsoftware.com/"
+	forwardURL = "https://gaeuploader.meek.bamsoftware.com/"
 	// A timeout of 0 means to use the App Engine default (5 seconds).
 	urlFetchTimeout = 20 * time.Second
 )
