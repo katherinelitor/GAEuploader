@@ -110,7 +110,7 @@ gcloudf(["-q", "app", "deploy", "./appengine/app.yaml"])
 # Example of bundled_python_path: %TEMP%\tmptb9ovz\python\python.exe
 # Therefore, we go two levels up to delete the directory.
 if sys.platform == "win32":
-	bundled_python_path = os.path.dirname(os.path.dirname(path))
+    bundled_python_path = os.path.dirname(os.path.dirname(path))
     if safe_to_delete(bundled_python_path):
 	    shutil.rmtree(bundled_python_path)
 print("Your bridge line is:\n" + "meek 0.0.2.0:1 url=https://" + appname + ".appspot.com/ front=www.google.com")
