@@ -1,2 +1,3 @@
 *.pyc
 google-cloud-sdk
+.DS_Store
