@@ -1,0 +1,117 @@
+#!/usr/bin/env python
+
+import subprocess
+import os
+import sys
+import os.path
+import webbrowser
+import time
+import shutil
+import tempfile
+
+import base64
+import re
+
+if sys.platform == "win32":
+    GCLOUD_PATH = ".\\google-cloud-sdk\\bin\\gcloud.cmd"
+else:
+    GCLOUD_PATH = "./google-cloud-sdk/bin/gcloud"
+
+def project_id_is_valid(project_id):
+    return 6 <= len(project_id) <= 30 and re.match(b"^[a-z][a-z0-9-]*$", project_id)
+def generate_project_id():
+    while True:
+        project_id = base64.b32encode(os.urandom(8)).rstrip(b'=').lower()
+        if project_id_is_valid(project_id):
+            return project_id
+def gcloudf(args):
+    subprocess.check_call([GCLOUD_PATH] + args)
+def gcloudoutput(args):
+    return subprocess.check_output([GCLOUD_PATH] + args)
+
+def removeends(path):
+    if path.endswith("\n"):
+        path = path[:-1]
+    if path.endswith("\r"):
+        path = path[:-1]
+    if path.endswith("\r\n"):
+        path = path[:-2]
+    return path
+
+def safe_to_delete(path):
+    '''
+    Return a boolean indicating whether dir is a subdirectory of the temp directory, and therefore safe to delete.
+    This is safety feature to avoid deleting useful information.
+    '''
+    temp_path = os.getenv("TEMP")
+    if temp_path:
+        return os.path.normcase(temp_path)==os.path.normcase(os.path.dirname(path))
+    else:
+        return False
+
+
+#You can change the region to "asia-northeast1", "europe-west" or "us-east1", depending on your location.
+REGION = "us-central"
+
+# Handles input difference between python2 and python3.
+try:
+   input = raw_input
+except NameError:
+   pass
+
+#The code below is based on the official reference for Google Cloud.
+#https://cloud.google.com/sdk/gcloud/reference/
+os.chdir(os.path.dirname(sys.argv[0]))
+#Sets the environmental variable to python 2.7, the version accepted by Google Cloud SDK.
+if sys.platform != "win32":
+    os.environ["CLOUDSDK_PYTHON"] = "python2.7";
+print("A pop up window will open in a few seconds asking you to login.")
+print("Please keep this terminal window open, and return to it after\nyou log in and accept the terms of service in the pop-up window.")
+print("\n\n\n")
+sys.stdout.flush()
+time.sleep(5)
+gcloudf(["auth", "login"])
+webbrowser.open("https://cloud.google.com/console")
+time.sleep(1)
+print("Please make sure that you have accepted the terms of service before\nentering your project ID below.")
+print("\n")
+sys.stdout.flush()
+print("Requirements for project IDs:")
+print("(1) Starts with a lowercase letter.")
+print("(2) Contains only lowercase ASCII letters, digits or hyphens.")
+print("(3) Between 6 and 30 characters.")
+print("(4) Unique.")
+print("\n")
+sys.stdout.flush()
+
+#create a project with given PROJECT_ID
+while True:
+    try:
+        print("Suggested project ID: {}".format(generate_project_id().decode("utf-8")))
+        print("Please enter your project ID below, press Enter once, and wait.")
+        sys.stdout.flush()
+        appname = input()
+        gcloudf(["projects", "create", appname])
+    except subprocess.CalledProcessError:
+        continue
+    else:
+        break
+#set the project property in the core section
+gcloudf(["config", "set", "project", appname])
+#create an App Engine app within the current Google Cloud Project.
+gcloudf(["app", "create", "--region=" + REGION, "--project=" + appname])
+if sys.platform == "win32":
+    path = gcloudoutput(["components", "copy-bundled-python"])
+    path = removeends(path)
+    os.environ["CLOUDSDK_PYTHON"] = path
+#deploy the meek source code onto the newly created google app engine.
+gcloudf(["-q", "app", "deploy", "./contents/appengine/app.yaml"])
+# remove copy-bundled-python
+# Example of bundled_python_path: %TEMP%\tmptb9ovz\python\python.exe
+# Therefore, we go two levels up to delete the directory.
+if sys.platform == "win32":
+    bundled_python_path = os.path.dirname(os.path.dirname(path))
+    if safe_to_delete(bundled_python_path):
+        shutil.rmtree(bundled_python_path)
+print("Your bridge line is:\n" + "meek 0.0.2.0:1 url=https://" + appname + ".appspot.com/ front=www.google.com")
+sys.stdout.flush()
