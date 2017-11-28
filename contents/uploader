@@ -105,7 +105,7 @@ if sys.platform == "win32":
     path = removeends(path)
     os.environ["CLOUDSDK_PYTHON"] = path
 #deploy the meek source code onto the newly created google app engine.
-gcloudf(["-q", "app", "deploy", "./contents/appengine/app.yaml"])
+gcloudf(["-q", "app", "deploy", "./appengine/app.yaml"])
 # remove copy-bundled-python
 # Example of bundled_python_path: %TEMP%\tmptb9ovz\python\python.exe
 # Therefore, we go two levels up to delete the directory.

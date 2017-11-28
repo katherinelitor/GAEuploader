@@ -1,3 +1,3 @@
 @echo off
-.\contents\google-cloud-sdk\platform\bundledpython\python.exe .\uploader
+.\contents\google-cloud-sdk\platform\bundledpython\python.exe .\contents\uploader
 pause
